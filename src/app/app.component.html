@@ -1,0 +1,25 @@
+<p>{{name}}</p>
+<form (ngSubmit)="onSubmit()" class="form">
+  <label for="tokenPriceMax">Token price max: </label>
+  <input type="number" id="name" name="tokenPriceMax" [(ngModel)]="tokenPriceMax" class="inputNumber">
+  <label for="tokenPriceMin">Token price min: </label>
+  <input type="number" id="name" name="tokenPriceMin" [(ngModel)]="tokenPriceMin" class="inputNumber">
+  <label for="tokenQuantity">Token quantity: </label>
+  <input type="number" id="name" name="tokenQuantity" [(ngModel)]="tokenQuantity" class="inputNumber">
+  <label for="stepNumber">Nombre de palier: </label>
+  <input type="number" id="name" name="stepNumber" [(ngModel)]="stepNumber" class="inputNumber">
+  <label for="profit">Bénéfice: </label>
+  <input type="number" id="name" name="profit" [(ngModel)]="profit" class="inputNumber">
+  <button type="submit" class="submit">résultat</button>
+</form>
+<div>
+  <p>{{result}}</p>
+  <p>{{pricePercent}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+  <p>{{tokenPriceMax}}</p>
+</div>

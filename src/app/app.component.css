@@ -1,0 +1,19 @@
+p {
+  font-family: Lato;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputNumber {
+  width: 200px;
+}
+
+.submit {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
