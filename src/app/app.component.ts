@@ -6,42 +6,98 @@ import { Component } from '@angular/core';
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent  {
-  name = 'GridBotCalculator';
-  tokenPriceMax = 20;
-  tokenPriceMin = 10;
-  tokenQuantity = 1;
-  stepNumber = 100;
-  profit = 10;;
-  percentStep: number;
-  pricePercent: number;
-  result: number;
+  private name = 'GridBotCalculator';
+  private tokenPriceMax: number;
+  private tokenPriceMin: number;
+  private tokenQuantityByStep: number;
+  private defaultStepNumber: number;
+  private profit: number;
+  private percentStep: number;
+  private priceForStep: number;
+  private defaultTotalSpending: number;
+  private priceNow: number;
+  private loseOrGainBeforeProfit: number;
+  private totalLoseOrGain: number
+  private totalSelling: number;
+  private tokenPriceHigh: number;
+  private tokenPriceLow: number;
 
+  onInit() {
+  }
   onSubmit() {
     this.checkInputAndReplaceIfNeeded();
-    let priceTmp: number;
-    this.pricePercent = 0;
-    this.result = this.tokenPriceMax;  
-    this.percentStep = (((this.tokenPriceMin - this.tokenPriceMax)/this.tokenPriceMax*100))/this.stepNumber;
+    this.priceForStep = 0;
+    this.percentStep = this.calculatePercentStep();
+    this.calculateDefaultTotalSpending();
+    this.calculateLoseOrGainBeforeProfit();
+    this.calculateTotalLoseOrGain();
+    this.calculateTotalSelling()
+  }
 
-    for (let i = 1; i <= this.stepNumber; i++) {
-      priceTmp = this.tokenPriceMax*((100+this.percentStep*i)/100);
-      this.pricePercent = this.tokenPriceMax - priceTmp;
-      console.log('pricePercent: ', this.pricePercent); 
-      console.log('i: ', i); 
-      console.log('priceTmp: ', priceTmp);
-      this.result = this.result + priceTmp;              
+  calculateTotalSelling() {
+    this.totalSelling = this.priceNow*this.tokenQuantityByStep*this.defaultStepNumber;
+  }
+
+  calculateDefaultTotalSpending() {
+    let topPrice;
+    let botPrice;
+    let stepNumber;
+    if(this.isDefault()) {
+      topPrice = this.tokenPriceMax;
+      botPrice = this.tokenPriceMin;
+      stepNumber = this.defaultStepNumber;
+    } else {
+      topPrice = this.tokenPriceHigh;
+      botPrice = this.tokenPriceLow;
+      stepNumber = this.calculateStepNumber;
+    }
+        console.log('stepNumber ', stepNumber)
+    this.defaultTotalSpending = topPrice;
+    let priceTmp: number;
+    for (let i = 1; i <= stepNumber; i++) {
+      priceTmp = this.tokenPriceMax*((100+this.percentStep*i)/100)*this.tokenQuantityByStep;
+      this.priceForStep = this.tokenPriceMax - priceTmp;
+      this.defaultTotalSpending = this.defaultTotalSpending + priceTmp;    
     }
   }
 
-  checkInputAndReplaceIfNeeded() {
-    if(this.tokenQuantity === undefined){
-      this.tokenQuantity = 1;
+  calculateStepNumber() {
+    return (this.tokenPriceHigh - this.tokenPriceLow)/(this.percentStep);
+    console.log(this.percentStep)
+  }
+
+  isDefault() {
+    if(this.tokenPriceHigh === undefined && this.tokenPriceHigh === undefined) {
+      return true;
+    } else {
+      return false;
     }
-    if(this.stepNumber === undefined){
-      this.stepNumber = 1;
+  }
+
+  calculateTotalLoseOrGain() {
+    this.totalLoseOrGain = this.loseOrGainBeforeProfit + this.profit;
+  }
+
+  calculateLoseOrGainBeforeProfit() {
+    this.loseOrGainBeforeProfit = (this.tokenQuantityByStep*this.defaultStepNumber*this.priceNow) - this.defaultTotalSpending;
+  }
+
+  calculatePercentStep() {
+    return (((this.tokenPriceMin - this.tokenPriceMax)/this.tokenPriceMax*100))/this.defaultStepNumber;
+  }
+
+  checkInputAndReplaceIfNeeded() {
+    if(this.tokenQuantityByStep === undefined){
+      this.tokenQuantityByStep = 1;
+    }
+    if(this.defaultStepNumber === undefined){
+      this.defaultStepNumber = 1;
     }
     if(this.profit === undefined){
       this.profit = 0;
+    }
+    if(this.priceNow === undefined){
+      this.priceNow = this.tokenPriceMin;
     }
   }
 

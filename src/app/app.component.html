@@ -4,22 +4,29 @@
   <input type="number" id="name" name="tokenPriceMax" [(ngModel)]="tokenPriceMax" class="inputNumber">
   <label for="tokenPriceMin">Token price min: </label>
   <input type="number" id="name" name="tokenPriceMin" [(ngModel)]="tokenPriceMin" class="inputNumber">
-  <label for="tokenQuantity">Token quantity: </label>
-  <input type="number" id="name" name="tokenQuantity" [(ngModel)]="tokenQuantity" class="inputNumber">
-  <label for="stepNumber">Nombre de palier: </label>
-  <input type="number" id="name" name="stepNumber" [(ngModel)]="stepNumber" class="inputNumber">
+  <label for="tokenPriceHigh">Token price High: </label>
+  <input type="number" id="name" name="tokenPriceHigh" [(ngModel)]="tokenPriceHigh" class="inputNumber">
+  <label for="tokenPriceLow">Token price Low: </label>
+  <input type="number" id="name" name="tokenPriceLow" [(ngModel)]="tokenPriceLow" class="inputNumber">
+  <label for="defaultStepNumber">Nombre de palier: </label>
+  <input type="number" id="name" name="defaultStepNumber" [(ngModel)]="defaultStepNumber" class="inputNumber">
+  <label for="tokenQuantityByStep">Token quantity by step: </label>
+  <input type="number" id="name" name="tokenQuantityByStep" [(ngModel)]="tokenQuantityByStep" class="inputNumber">
   <label for="profit">Bénéfice: </label>
   <input type="number" id="name" name="profit" [(ngModel)]="profit" class="inputNumber">
+  <label for="priceNow">Prix actuel: </label>
+  <input type="number" id="name" name="priceNow" [(ngModel)]="priceNow" class="inputNumber">
   <button type="submit" class="submit">résultat</button>
 </form>
 <div>
-  <p>{{result}}</p>
-  <p>{{pricePercent}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
-  <p>{{tokenPriceMax}}</p>
+  <p>Pourcentage par palier = {{percentStep}}%</p>
+  <p>totale dépensé = {{defaultTotalSpending}}$</p>
+  <div *ngIf="loseOrGainBeforeProfit < 0; then loseBlock else gainBlock"></div>
+  <ng-template #gainBlock><p>Gains avant bénéfices = {{loseOrGainBeforeProfit}}$</p></ng-template>
+  <ng-template #loseBlock><p>Pertes avant bénéfices = {{loseOrGainBeforeProfit}}$</p></ng-template>
+  <p>Bénéfice partiel = {{profit}}$</p>  
+  <p>Prix toltal de la revente au prix actuel = {{totalSelling}}$</p>
+  <div *ngIf="totalLoseOrGain < 0; then TotalLoseBlock else TotalGainBlock"></div>
+  <ng-template #TotalGainBlock><p>Bénéfice Net = {{totalLoseOrGain}}$</p></ng-template>
+  <ng-template #TotalLoseBlock><p>Pertes Net = {{totalLoseOrGain}}$</p></ng-template>
 </div>
